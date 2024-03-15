@@ -1,0 +1,48 @@
+footprint: [[-0.3, -0.3], [-0.3, 0.3], [0.3, 0.3], [0.3, -0.3]]
+footprint_padding: 0.05
+
+# plugins:
+# - {name: obstacles_layer, type: "costmap_2d::ObstacleLayer"}
+# - {name: inflater_layer, type: "costmap_2d::InflationLayer"}
+# - {name: static_layer, type: "costmap_2d::StaticLayer"}
+
+obstacle_layer:
+  enabled:              true
+  max_obstacle_height:  1.
+  min_obstacle_height:  0.04
+  combination_method:   1
+  # true needed for disabling global path planning through unknown space
+  track_unknown_space:  true
+  # The robot updates the threshold of the obstacle distance from the base coordinate system in the cost map.
+  obstacle_range: 5
+  # The robot clears obstacles in the cost map from the threshold of the base coordinate system.
+  raytrace_range: 4.5
+  publish_voxel_map: true
+  observation_sources: lidar
+  lidar:
+    data_type: PointCloud2
+    topic: "/velodyne_points"
+    marking: true
+    clearing: true
+    expected_update_rate: 0
+    max_obstacle_height:  1.2
+    min_obstacle_height:  0.08
+
+inflater_layer:
+  enabled: true
+  inflation_radius: 0.5
+  # exponential rate at which the obstacle cost drops off
+  cost_scaling_factor: 5.0
+  lethal_cost_threshold: 100
+
+static_layer:
+  enabled:              true
+  map_topic:            "/map"
+
+# social_navigation_layer:
+#  cutoff: 10.0
+#  aplitude: 77.0
+#  covariance: 0.25
+#  factor: 5.0
+#  keep_time: 0.75
+  
